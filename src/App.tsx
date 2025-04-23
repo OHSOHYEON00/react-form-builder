@@ -1,7 +1,8 @@
 import "./App.css";
+import FormBuilder from "./components/builder/FormBuilder";
 
 function App() {
-  return <div></div>;
+  return <FormBuilder />;
 }
 
 export default App;
