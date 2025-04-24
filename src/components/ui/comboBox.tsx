@@ -26,6 +26,7 @@ interface ComboBoxProps extends PopoverContentProps {
   initValue?: ListType["value"];
   placeholder?: string;
   _onSelect?: (value: string | undefined) => void;
+  width?: string;
 }
 
 const Combobox = ({
@@ -33,6 +34,7 @@ const Combobox = ({
   initValue = undefined,
   options = [],
   placeholder = "Select",
+  width,
   _onSelect,
 }: ComboBoxProps) => {
   const [open, setOpen] = React.useState(initOpen);
@@ -45,7 +47,7 @@ const Combobox = ({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className={`${width} justify-between`}
         >
           {value && options
             ? options.find((options) => options.value === value)?.label

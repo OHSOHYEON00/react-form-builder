@@ -1,12 +1,8 @@
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
+import { FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { FormCreatorSchemaTypes } from "@/types/form";
 import { Control } from "node_modules/react-hook-form/dist/types/form";
+import { BaseFormField } from "../../FormRenderer/BaseFormItemUI";
 
 const NewItemLabelInput = ({
   control,
@@ -19,12 +15,9 @@ const NewItemLabelInput = ({
       name="label"
       render={({ field }) => {
         return (
-          <FormItem>
-            <FormLabel>Label</FormLabel>
-            <FormControl>
-              <Input placeholder="Input form label" {...field} />
-            </FormControl>
-          </FormItem>
+          <BaseFormField required={false} id={"label"} label={"Label"}>
+            <Input placeholder="Input form label" {...field} />
+          </BaseFormField>
         );
       }}
     />
