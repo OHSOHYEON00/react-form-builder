@@ -6,7 +6,10 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { FormCreatorSchemaTypes, FormItemType } from "@/types/form";
+import { defaultFormMeta } from "@/types/metaConfigs";
 import { Control } from "node_modules/react-hook-form/dist/types/form";
+import { useCallback } from "react";
+import { useFormContext } from "react-hook-form";
 
 const NewItemTypeSelector = ({
   control,
@@ -17,6 +20,12 @@ const NewItemTypeSelector = ({
     value: type,
     label: FormItemType[type as keyof typeof FormItemType],
   }));
+
+  const { setValue } = useFormContext();
+
+  const handleItemChanged = useCallback(() => {
+    setValue("meta", defaultFormMeta);
+  }, [setValue]);
 
   return (
     <FormField
@@ -29,7 +38,10 @@ const NewItemTypeSelector = ({
             <Combobox
               {...field}
               options={formItemOptions}
-              _onSelect={field.onChange}
+              _onSelect={(e) => {
+                field.onChange(e);
+                handleItemChanged();
+              }}
             />
           </FormControl>
         </FormItem>

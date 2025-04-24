@@ -1,17 +1,16 @@
-import { FormItemType } from "./form";
+import { FormItemTypeKeys } from "./form";
 
 export type metaConfigName =
   | "placeholder"
   | "required"
   | "maxLength"
   | "defaultChecked"
-  | "minLength"
-  | "rows";
+  | "minLength";
 
 export interface configType {
   name: metaConfigName;
   label: string;
-  type: keyof typeof FormItemType;
+  type: FormItemTypeKeys;
   placeholder?: string;
 }
 
@@ -46,12 +45,14 @@ export const metaConfigs: Record<string, configType[]> = {
       type: "input",
       placeholder: "Enter placeholder...",
     },
-    {
-      name: "rows",
-      label: "Rows",
-      type: "textArea",
-      placeholder: "e.g. 4",
-    },
     { name: "required", label: "Required", type: "checkBox" },
   ],
+};
+
+export const defaultFormMeta: Record<metaConfigName, string | boolean> = {
+  required: false,
+  placeholder: "",
+  defaultChecked: false,
+  maxLength: "0",
+  minLength: "0",
 };

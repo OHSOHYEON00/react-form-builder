@@ -17,14 +17,16 @@ const NewItemLabelInput = ({
     <FormField
       control={control}
       name="label"
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>Label</FormLabel>
-          <FormControl>
-            <Input placeholder="Input form label" {...field} />
-          </FormControl>
-        </FormItem>
-      )}
+      render={({ field }) => {
+        return (
+          <FormItem>
+            <FormLabel>Label</FormLabel>
+            <FormControl>
+              <Input placeholder="Input form label" {...field} />
+            </FormControl>
+          </FormItem>
+        );
+      }}
     />
   );
 };

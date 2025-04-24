@@ -10,6 +10,7 @@ type BaseFormFieldProps = {
   required?: boolean;
   label: string;
   description?: string;
+  id: string;
 };
 
 export const BaseFormField = ({
@@ -17,9 +18,10 @@ export const BaseFormField = ({
   label,
   children,
   description,
+  id,
 }: React.PropsWithChildren<BaseFormFieldProps>) => {
   return (
-    <FormItem>
+    <FormItem key={id}>
       <div className="mb-4">
         <FormLabel>
           {label} {required && <span className="text-red-500">*</span>}

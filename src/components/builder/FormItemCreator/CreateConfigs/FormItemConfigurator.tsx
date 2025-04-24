@@ -14,7 +14,6 @@ const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
   const configs = metaConfigs[type] || [];
   const { control } = useFormContext();
 
-  console.log("type", type);
   const renderInput = (
     type: keyof typeof FormItemType,
     field: ControllerRenderProps<FieldValues>
@@ -22,19 +21,20 @@ const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
     switch (type) {
       case "input":
         return <Input {...field} />;
+      case "numberInput":
+        return <Input {...field} type="number" />;
       case "checkBox":
         return (
           <Checkbox
             {...field}
-            onCheckedChange={(checked: boolean) => field.onChange(!!checked)}
+            checked={field.value}
+            onCheckedChange={field.onChange}
           />
         );
       default:
         return null;
     }
   };
-
-  console.log("configs", configs);
 
   return (
     <div className="space-y-2">
@@ -44,7 +44,11 @@ const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
           control={control}
           name={`meta.${name}`}
           render={({ field }) => (
-            <BaseFormField required={false} label={label}>
+            <BaseFormField
+              id={`${type}.${name}`}
+              required={false}
+              label={label}
+            >
               {renderInput(configType, field)}
             </BaseFormField>
           )}
