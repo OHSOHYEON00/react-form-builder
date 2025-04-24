@@ -14,15 +14,19 @@ const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
   const configs = metaConfigs[type] || [];
   const { control } = useFormContext();
 
+  if (configs.length <= 0) {
+    return <></>;
+  }
+
   const renderInput = (
     type: keyof typeof FormItemType,
     field: ControllerRenderProps<FieldValues>
   ) => {
     switch (type) {
       case "input":
-        return <Input {...field} />;
+        return <Input {...field} className=" w-full" />;
       case "numberInput":
-        return <Input {...field} type="number" />;
+        return <Input {...field} type="number" className="md:w-1/2 w-full" />;
       case "checkBox":
         return (
           <Checkbox
@@ -37,24 +41,29 @@ const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
   };
 
   return (
-    <div className="space-y-2">
-      {configs.map(({ name, label, type: configType }) => (
-        <FormField
-          key={name}
-          control={control}
-          name={`meta.${name}`}
-          render={({ field }) => (
-            <BaseFormField
-              id={`${type}.${name}`}
-              required={false}
-              label={label}
-            >
-              {renderInput(configType, field)}
-            </BaseFormField>
-          )}
-        />
-      ))}
-    </div>
+    <>
+      <h2 className="border-b-2 border-stone-200 pb-2 mt-8 font-medium">
+        Validation Configs
+      </h2>
+      <div className="gap-6 flex md:flex-wrap md:flex-row flex-col">
+        {configs.map(({ name, label, type: configType }) => (
+          <FormField
+            key={name}
+            control={control}
+            name={`meta.${name}`}
+            render={({ field }) => (
+              <BaseFormField
+                id={`${type}.${name}`}
+                required={false}
+                label={label}
+              >
+                {renderInput(configType, field)}
+              </BaseFormField>
+            )}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 export default FormItemConfigurator;

@@ -8,6 +8,7 @@ import NewItemTypeSelector from "./CreateConfigs/NewItemTypeSelector";
 import FormItemConfigurator from "./CreateConfigs/FormItemConfigurator";
 import { z } from "zod";
 import { defaultFormMeta } from "@/types/metaConfigs";
+import Header from "@/components/ui/header";
 
 const FormItemCreator = () => {
   const form = useForm({
@@ -25,20 +26,29 @@ const FormItemCreator = () => {
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <h2>Add New Field</h2>
+    <section className="">
+      <Header>Add New Field</Header>
 
-        <NewItemLabelInput control={form.control} />
-        <NewItemTypeSelector control={form.control} />
-        <FormItemConfigurator type={form.watch("formItem") as FormItemType} />
-        <Button className="cursor-pointer" type="submit">
-          Submit
-        </Button>
-        <div>{JSON.stringify(form.watch())}</div>
-        <div>{JSON.stringify(form.formState.errors)}</div>
-      </form>
-    </Form>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-6"
+        >
+          <div className="flex md:flex-row gap-6 justify-between flex-col">
+            <NewItemLabelInput control={form.control} />
+            <NewItemTypeSelector control={form.control} />
+          </div>
+
+          <FormItemConfigurator type={form.watch("formItem") as FormItemType} />
+
+          <Button className="cursor-pointer w-28 self-end" type="submit">
+            Submit
+          </Button>
+          {/* <div>{JSON.stringify(form.watch())}</div>
+          <div>{JSON.stringify(form.formState.errors)}</div> */}
+        </form>
+      </Form>
+    </section>
   );
 };
 

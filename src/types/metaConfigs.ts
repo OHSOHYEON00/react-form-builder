@@ -22,13 +22,13 @@ export const metaConfigs: Record<string, configType[]> = {
       type: "input",
       placeholder: "Enter placeholder...",
     },
-    { name: "required", label: "Required", type: "checkBox" },
     {
       name: "maxLength",
       label: "Max Length",
       type: "numberInput",
       placeholder: "e.g. 50",
     },
+    { name: "required", label: "Required", type: "checkBox" },
   ],
   checkBox: [
     {
