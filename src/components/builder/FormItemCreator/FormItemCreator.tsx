@@ -9,8 +9,11 @@ import FormItemConfigurator from "./CreateConfigs/FormItemConfigurator";
 import { z } from "zod";
 import { defaultFormMeta } from "@/types/metaConfigs";
 import Header from "@/components/ui/header";
+import { useFormBuilderStore } from "@/components/store/useFormBuilderStore";
 
 const FormItemCreator = () => {
+  const addItem = useFormBuilderStore((store) => store.addItem);
+
   const form = useForm({
     resolver: zodResolver(FormCreatorSchema),
     defaultValues: {
@@ -21,8 +24,7 @@ const FormItemCreator = () => {
   });
 
   const onSubmit = (e: z.infer<typeof FormCreatorSchema>) => {
-    console.log(e);
-    console.log("?>>> on Submit", form.getValues());
+    addItem(e);
   };
 
   return (
@@ -44,8 +46,6 @@ const FormItemCreator = () => {
           <Button className="cursor-pointer w-28 self-end" type="submit">
             Submit
           </Button>
-          {/* <div>{JSON.stringify(form.watch())}</div>
-          <div>{JSON.stringify(form.formState.errors)}</div> */}
         </form>
       </Form>
     </section>
