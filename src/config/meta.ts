@@ -14,6 +14,11 @@ export const metaConfigs: Record<string, configType[]> = {
       type: "numberInput",
       placeholder: "e.g. 50",
     },
+    {
+      name: "minLength",
+      label: "Min Length",
+      type: "numberInput",
+    },
     { name: "required", label: "Required", type: "checkBox" },
   ],
   checkBox: [
@@ -31,15 +36,23 @@ export const metaConfigs: Record<string, configType[]> = {
       type: "input",
       placeholder: "Enter placeholder...",
     },
+    {
+      name: "minLength",
+      label: "Min Length",
+      type: "numberInput",
+    },
     { name: "required", label: "Required", type: "checkBox" },
   ],
 };
 
-export const defaultFormMeta: Record<metaConfigName, string | boolean> = {
+export const defaultFormMeta: Record<
+  metaConfigName,
+  string | boolean | number
+> = {
   required: false,
   placeholder: "",
   defaultChecked: false,
-  maxLength: "0",
+  maxLength: "1",
   minLength: "0",
 };
 
@@ -56,6 +69,7 @@ export const metaValidationMap = {
       (val) => Number(val),
       z.number().min(1).max(999).optional()
     ),
+    minLength: z.preprocess((val) => Number(val), z.number().min(0).optional()),
     required: z.boolean().optional(),
   },
   numberInput: {
@@ -68,6 +82,7 @@ export const metaValidationMap = {
       (val) => Number(val),
       z.number().min(1).max(999).optional()
     ),
+    minLength: z.preprocess((val) => Number(val), z.number().min(0).optional()),
     required: z.boolean().optional(),
   },
   checkBox: {

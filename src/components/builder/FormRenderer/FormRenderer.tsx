@@ -30,7 +30,7 @@ const FormRenderer = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-6"
         >
-          <div className="gap-6 flex md:flex-wrap sm:flex-col">
+          <div className="gap-6 flex md:flex-wrap flex-col">
             <ItemRenderer
               items={items}
               control={form.control}

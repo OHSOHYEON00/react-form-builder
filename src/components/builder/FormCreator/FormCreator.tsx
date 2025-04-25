@@ -1,4 +1,4 @@
-import { FormCreatorSchema, FormItemType } from "@/types/form";
+import { FormItemType } from "@/types/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "../../ui/form";
@@ -10,6 +10,7 @@ import { z } from "zod";
 import { defaultFormMeta } from "@/config/meta";
 import Header from "@/components/ui/header";
 import { useFormBuilderStore } from "@/components/store/useFormBuilderStore";
+import { FormCreatorSchema } from "@/config/form";
 
 const FormCreator = () => {
   const addItem = useFormBuilderStore((store) => store.addItem);

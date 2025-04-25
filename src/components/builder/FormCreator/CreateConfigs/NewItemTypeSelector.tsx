@@ -1,10 +1,11 @@
 import Combobox from "@/components/ui/comboBox";
 import { FormField, FormFieldProps } from "@/components/ui/form";
-import { FormCreatorSchemaTypes, FormItemType } from "@/types/form";
+import { FormItemType } from "@/types/form";
 import { defaultFormMeta } from "@/config/meta";
 import { useCallback } from "react";
-import { Control, useFormContext } from "react-hook-form";
+import { Control, useFormContext, useFormState } from "react-hook-form";
 import { BaseFormField } from "../../common/BaseFormItemUI";
+import { FormCreatorSchemaTypes } from "@/config/form";
 
 const NewItemTypeSelector = ({
   control,
@@ -15,6 +16,7 @@ const NewItemTypeSelector = ({
     value: type,
     label: FormItemType[type as keyof typeof FormItemType],
   }));
+  const error = useFormState({ control })?.errors?.formItem?.message || "";
 
   const { setValue } = useFormContext();
 
@@ -32,6 +34,7 @@ const NewItemTypeSelector = ({
           required={true}
           id={"formItem"}
           className="w-1/2"
+          error={error}
         >
           <Combobox
             {...field}

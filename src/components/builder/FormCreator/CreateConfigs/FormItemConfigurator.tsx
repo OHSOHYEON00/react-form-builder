@@ -1,5 +1,5 @@
 import { metaConfigs } from "@/config/meta";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFormState } from "react-hook-form";
 import {
   FormItemType,
   FormField as FormFieldType,
@@ -8,6 +8,9 @@ import {
 import ItemRenderer from "../../common/ItemRenderer";
 
 const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
+  const { control } = useFormContext();
+  const { errors } = useFormState({ control });
+
   const configs: FormFieldType[] =
     metaConfigs[type]?.map(({ type, name, label }) => ({
       id: `${type}.${name}`,
@@ -17,9 +20,8 @@ const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
       } as FormFieldType["meta"],
       label: label,
       formItem: type,
+      error: (errors?.meta && (errors.meta as any)[name]?.message) || "",
     })) || [];
-
-  const { control } = useFormContext();
 
   if (configs.length <= 0) {
     return <></>;
