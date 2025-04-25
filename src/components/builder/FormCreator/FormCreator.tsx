@@ -7,18 +7,18 @@ import NewItemLabelInput from "./CreateConfigs/NewItemLabelInput";
 import NewItemTypeSelector from "./CreateConfigs/NewItemTypeSelector";
 import FormItemConfigurator from "./CreateConfigs/FormItemConfigurator";
 import { z } from "zod";
-import { defaultFormMeta } from "@/types/metaConfigs";
+import { defaultFormMeta } from "@/config/meta";
 import Header from "@/components/ui/header";
 import { useFormBuilderStore } from "@/components/store/useFormBuilderStore";
 
-const FormItemCreator = () => {
+const FormCreator = () => {
   const addItem = useFormBuilderStore((store) => store.addItem);
 
   const form = useForm({
     resolver: zodResolver(FormCreatorSchema),
     defaultValues: {
       label: "",
-      formItem: undefined,
+      formItem: "",
       meta: defaultFormMeta,
     },
   });
@@ -52,4 +52,4 @@ const FormItemCreator = () => {
   );
 };
 
-export default FormItemCreator;
+export default FormCreator;

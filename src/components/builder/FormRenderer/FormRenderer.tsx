@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { generateZodSchemaFromFormItems } from "@/lib/utils";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import ItemRenderer from "./ItemRenderer";
+import ItemRenderer from "../common/ItemRenderer";
 
 const FormRenderer = () => {
   const items = useFormBuilderStore((store) => store.items);

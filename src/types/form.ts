@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { metaConfigName } from "./metaConfigs";
+import { metaConfigName } from "./meta";
 
 export enum FormItemType {
   input = "Input",

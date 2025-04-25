@@ -1,17 +1,17 @@
-import { FormField } from "@/components/ui/form";
+import { FormField, FormFieldProps } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { BaseFormField } from "../../common/BaseFormItemUI";
 import { FormCreatorSchemaTypes } from "@/types/form";
-import { Control } from "node_modules/react-hook-form/dist/types/form";
-import { BaseFormField } from "../../FormRenderer/BaseFormItemUI";
+import { Control } from "react-hook-form";
 
 const NewItemLabelInput = ({
   control,
 }: {
-  control: Control<FormCreatorSchemaTypes, unknown, FormCreatorSchemaTypes>;
+  control: Control<FormCreatorSchemaTypes>;
 }) => {
   return (
     <FormField
-      control={control}
+      control={control as unknown as FormFieldProps["control"]}
       name="label"
       render={({ field }) => {
         return (

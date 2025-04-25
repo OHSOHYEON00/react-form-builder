@@ -1,11 +1,10 @@
 import Combobox from "@/components/ui/comboBox";
-import { FormField } from "@/components/ui/form";
+import { FormField, FormFieldProps } from "@/components/ui/form";
 import { FormCreatorSchemaTypes, FormItemType } from "@/types/form";
-import { defaultFormMeta } from "@/types/metaConfigs";
-import { Control } from "node_modules/react-hook-form/dist/types/form";
+import { defaultFormMeta } from "@/config/meta";
 import { useCallback } from "react";
-import { useFormContext } from "react-hook-form";
-import { BaseFormField } from "../../FormRenderer/BaseFormItemUI";
+import { Control, useFormContext } from "react-hook-form";
+import { BaseFormField } from "../../common/BaseFormItemUI";
 
 const NewItemTypeSelector = ({
   control,
@@ -25,7 +24,7 @@ const NewItemTypeSelector = ({
 
   return (
     <FormField
-      control={control}
+      control={control as unknown as FormFieldProps["control"]}
       name="formItem"
       render={({ field }) => (
         <BaseFormField
