@@ -1,7 +1,7 @@
 import { FormField, FormItemTypeKeys } from "@/types/form";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { z, ZodType, ZodObject, ZodString } from "zod";
+import { z, ZodType, ZodString, ZodObject, ZodOptional } from "zod";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -10,17 +10,19 @@ export function cn(...inputs: ClassValue[]) {
 type GetBaseZodTypeResult = z.ZodString | z.ZodAny | z.ZodBoolean | z.ZodNumber;
 
 // Default Zod type mapping based on form field types
-const getBaseZodType = (itemType: FormItemTypeKeys): GetBaseZodTypeResult => {
+const getBaseZodType = (
+  itemType: FormItemTypeKeys
+): ZodOptional<GetBaseZodTypeResult> => {
   switch (itemType) {
     case "input":
     case "textArea":
-      return z.string();
+      return z.string().optional();
     case "checkBox":
-      return z.boolean();
+      return z.boolean().optional();
     case "numberInput":
-      return z.number();
+      return z.number().optional();
     default:
-      return z.any();
+      return z.any().optional();
   }
 };
 

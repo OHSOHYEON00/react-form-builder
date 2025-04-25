@@ -18,4 +18,5 @@ export interface FormField extends FormCreatorSchemaTypes {
   name: string;
   meta: Record<metaConfigName, string | boolean | any>;
   error?: string;
+  value?: string | boolean | any
 }
