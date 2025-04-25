@@ -17,7 +17,7 @@ export const useFormBuilderStore = create<FormBuilderState>()(
           item.formItem === "checkBox"
             ? !!item.meta?.defaultChecked
             : item.value ?? "";
-        const newId = `${nanoid()}-${item.formItem}`;
+        const newId = `${nanoid(7)}-${item.formItem}`;
         return {
           items: [
             ...state.items,

@@ -80,3 +80,16 @@ export const generateZodSchemaFromFormItems = (
 
   return z.object(shape);
 };
+
+const checkboxKeys = (name: string) => !!name.includes("checkBox");
+
+export const normalizeFormData = (data: Record<string, any>) => {
+  return Object.fromEntries(
+    Object.entries(data).map(([key, value]) => {
+      if (value === undefined) {
+        return [key, checkboxKeys(key) ? false : null];
+      }
+      return [key, value];
+    })
+  );
+};

@@ -4,10 +4,12 @@ import { FormItemTypeKeys } from "@/types/form";
 import Header from "@/components/ui/header";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { generateZodSchemaFromFormItems } from "@/lib/utils";
-import { z } from "zod";
+import { generateZodSchemaFromFormItems, normalizeFormData } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import ItemRenderer from "../common/ItemRenderer";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { useEffect } from "react";
 
 const FormRenderer = () => {
   const items = useFormBuilderStore((store) => store.items);
@@ -18,8 +20,28 @@ const FormRenderer = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (e: z.infer<typeof schema>) => {
-    console.log("진짜 submit!", e, form.formState);
+  useEffect(() => {
+    items.forEach((item) => {
+      if (item.name?.includes("checkBox")) {
+        form.setValue(item.name, item.meta?.defaultChecked);
+      }
+    });
+  }, [items, form]);
+
+  const onSubmit = () => {
+    const process = normalizeFormData(form.getValues());
+
+    toast("Form has been submitted.", {
+      description: (
+        <pre className="mt-2 w-[260px]  rounded-md bg-slate-950 p-4">
+          <p className="text-white">{JSON.stringify(process, null, 2)}</p>
+        </pre>
+      ),
+      action: {
+        label: "Undo",
+        onClick: () => {},
+      },
+    });
   };
 
   return (
@@ -48,6 +70,7 @@ const FormRenderer = () => {
           <div>{JSON.stringify(form.formState.errors)}</div>
         </form>
       </Form>
+      <Toaster />
     </>
   );
 };
