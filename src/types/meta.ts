@@ -5,7 +5,9 @@ export type metaConfigName =
   | "required"
   | "maxLength"
   | "defaultChecked"
-  | "minLength";
+  | "minLength"
+  | "min"
+  | "max";
 
 export interface configType {
   name: metaConfigName;

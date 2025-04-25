@@ -21,6 +21,11 @@ export const metaConfigs: Record<string, configType[]> = {
     },
     { name: "required", label: "Required", type: "checkBox" },
   ],
+  numberInput: [
+    { name: "min", label: "Min", type: "numberInput" },
+    { name: "max", label: "Max", type: "numberInput" },
+    { name: "required", label: "Required", type: "checkBox" },
+  ],
   checkBox: [
     {
       name: "defaultChecked",
@@ -37,6 +42,12 @@ export const metaConfigs: Record<string, configType[]> = {
       placeholder: "Enter placeholder...",
     },
     {
+      name: "maxLength",
+      label: "Max Length",
+      type: "numberInput",
+      placeholder: "e.g. 50",
+    },
+    {
       name: "minLength",
       label: "Min Length",
       type: "numberInput",
@@ -45,15 +56,10 @@ export const metaConfigs: Record<string, configType[]> = {
   ],
 };
 
-export const defaultFormMeta: Record<
-  metaConfigName,
-  string | boolean | number
+export const defaultFormMeta: Partial<
+  Record<metaConfigName, string | boolean | number | undefined>
 > = {
   required: false,
-  placeholder: "",
-  defaultChecked: false,
-  maxLength: "1",
-  minLength: "0",
 };
 
 import { z, ZodObject, ZodTypeAny } from "zod";
@@ -65,24 +71,26 @@ import { z, ZodObject, ZodTypeAny } from "zod";
 export const metaValidationMap = {
   input: {
     placeholder: z.string().optional(),
-    maxLength: z.preprocess(
-      (val) => Number(val),
-      z.number().min(1).max(999).optional()
-    ),
-    minLength: z.preprocess((val) => Number(val), z.number().min(0).optional()),
+    maxLength: z
+      .preprocess((val) => Number(val), z.number().min(1).max(999).optional())
+      .optional(),
+    minLength: z
+      .preprocess((val) => Number(val), z.number().min(0).optional())
+      .optional(),
     required: z.boolean().optional(),
   },
   numberInput: {
-    min: z.number().optional(),
-    max: z.number().optional(),
+    min: z.preprocess((val) => Number(val), z.number().optional()).optional(),
+    max: z.preprocess((val) => Number(val), z.number().optional()).optional(),
   },
   textArea: {
     placeholder: z.string().optional(),
-    maxLength: z.preprocess(
-      (val) => Number(val),
-      z.number().min(1).max(999).optional()
-    ),
-    minLength: z.preprocess((val) => Number(val), z.number().min(0).optional()),
+    maxLength: z
+      .preprocess((val) => Number(val), z.number().min(1).max(999).optional())
+      .optional(),
+    minLength: z
+      .preprocess((val) => Number(val), z.number().min(0).optional())
+      .optional(),
     required: z.boolean().optional(),
   },
   checkBox: {
