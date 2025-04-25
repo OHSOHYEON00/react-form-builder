@@ -13,4 +13,5 @@ export interface configType {
   type: FormItemTypeKeys;
   placeholder?: string;
   formItem?: FormItemTypeKeys;
+  error?: string;
 }

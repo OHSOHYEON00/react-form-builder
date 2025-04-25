@@ -25,6 +25,10 @@ const getBaseZodType = (itemType: FormItemTypeKeys): GetBaseZodTypeResult => {
 };
 
 // Add Zod validations using meta information
+/*
+  configures validation for final submission of user-created fields.
+  generates field-specific validation logic when submitting the rendered form
+*/
 const applyMetaValidation = (
   schema: ZodType<unknown>,
   meta: FormField["meta"]
