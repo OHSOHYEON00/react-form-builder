@@ -10,19 +10,17 @@ export function cn(...inputs: ClassValue[]) {
 type GetBaseZodTypeResult = z.ZodString | z.ZodAny | z.ZodBoolean | z.ZodNumber;
 
 // Default Zod type mapping based on form field types
-const getBaseZodType = (
-  itemType: FormItemTypeKeys
-): ZodOptional<GetBaseZodTypeResult> => {
+const getBaseZodType = (itemType: FormItemTypeKeys): GetBaseZodTypeResult => {
   switch (itemType) {
     case "input":
     case "textArea":
-      return z.string().optional();
+      return z.string();
     case "checkBox":
-      return z.boolean().optional();
+      return z.boolean();
     case "numberInput":
-      return z.number().optional();
+      return z.number();
     default:
-      return z.any().optional();
+      return z.any();
   }
 };
 
@@ -39,16 +37,6 @@ const applyMetaValidation = (
 
   if (!meta) return result;
 
-  if (meta.required) {
-    result = result.refine(
-      (val) =>
-        typeof val === "string" ? val.trim().length > 0 : val !== undefined,
-      {
-        message: "This field is required",
-      }
-    );
-  }
-
   if (result instanceof ZodString) {
     if (meta.minLength) {
       result = (result as ZodString).min(Number(meta.minLength), {
@@ -61,6 +49,17 @@ const applyMetaValidation = (
         message: `Maximum ${meta.maxLength} characters`,
       });
     }
+  }
+
+  // Must be in the last
+  if (meta.required) {
+    result = result.refine(
+      (val) =>
+        typeof val === "string" ? val.trim().length > 0 : val !== undefined,
+      { message: "This field is required" }
+    );
+  } else {
+    result = result.optional();
   }
 
   return result;
