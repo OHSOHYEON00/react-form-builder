@@ -1,4 +1,3 @@
-// useFormBuilderStore.ts
 import { create } from "zustand";
 import { nanoid } from "nanoid";
 import { FormField } from "@/types/form";

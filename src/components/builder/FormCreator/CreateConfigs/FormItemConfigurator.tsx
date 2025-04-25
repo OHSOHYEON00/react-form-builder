@@ -1,11 +1,11 @@
-import { metaConfigs } from "@/types/metaConfigs";
+import { metaConfigs } from "@/config/meta";
 import { useFormContext } from "react-hook-form";
 import {
   FormItemType,
   FormField as FormFieldType,
   FormItemTypeKeys,
 } from "@/types/form";
-import ItemRenderer from "../../FormRenderer/ItemRenderer";
+import ItemRenderer from "../../common/ItemRenderer";
 
 const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
   const configs: FormFieldType[] =

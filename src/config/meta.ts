@@ -1,19 +1,4 @@
-import { FormItemTypeKeys } from "./form";
-
-export type metaConfigName =
-  | "placeholder"
-  | "required"
-  | "maxLength"
-  | "defaultChecked"
-  | "minLength";
-
-export interface configType {
-  name: metaConfigName;
-  label: string;
-  type: FormItemTypeKeys;
-  placeholder?: string;
-  formItem?: FormItemTypeKeys;
-}
+import { configType, metaConfigName } from "@/types/meta";
 
 export const metaConfigs: Record<string, configType[]> = {
   input: [

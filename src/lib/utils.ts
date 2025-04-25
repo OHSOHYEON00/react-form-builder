@@ -9,7 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 
 type GetBaseZodTypeResult = z.ZodString | z.ZodAny | z.ZodBoolean | z.ZodNumber;
 
-// 폼 필드 타입에 따른 기본 zod 타입 매핑
+// Default Zod type mapping based on form field types
 const getBaseZodType = (itemType: FormItemTypeKeys): GetBaseZodTypeResult => {
   switch (itemType) {
     case "input":
@@ -24,7 +24,7 @@ const getBaseZodType = (itemType: FormItemTypeKeys): GetBaseZodTypeResult => {
   }
 };
 
-// meta 정보를 바탕으로 zod 유효성 추가
+// Add Zod validations using meta information
 const applyMetaValidation = (
   schema: ZodType<unknown>,
   meta: FormField["meta"]
@@ -60,7 +60,7 @@ const applyMetaValidation = (
   return result;
 };
 
-// 전체 스키마 생성기
+// Generate the complete schema
 export const generateZodSchemaFromFormItems = (
   fields: FormField[]
 ): ZodObject<Record<string, ZodType<unknown>>> => {
