@@ -12,6 +12,7 @@ export interface configType {
   label: string;
   type: FormItemTypeKeys;
   placeholder?: string;
+  formItem?: FormItemTypeKeys;
 }
 
 export const metaConfigs: Record<string, configType[]> = {
