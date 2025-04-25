@@ -64,6 +64,12 @@ export const defaultFormMeta: Partial<
 
 import { z, ZodObject, ZodTypeAny } from "zod";
 
+function toOptionalNumber(val: unknown) {
+  if (val === "" || val === undefined || val === null) return undefined;
+  const num = Number(val);
+  return Number.isFinite(num) ? num : undefined;
+}
+
 /*
   defines the meta structure for each formItem
   determines if the meta is valid in the "Form Creator" step
@@ -72,24 +78,24 @@ export const metaValidationMap = {
   input: {
     placeholder: z.string().optional(),
     maxLength: z
-      .preprocess((val) => Number(val), z.number().min(1).max(999).optional())
+      .preprocess(toOptionalNumber, z.number().min(1).max(999).optional())
       .optional(),
     minLength: z
-      .preprocess((val) => Number(val), z.number().min(0).optional())
+      .preprocess(toOptionalNumber, z.number().min(0).optional())
       .optional(),
     required: z.boolean().optional(),
   },
   numberInput: {
-    min: z.preprocess((val) => Number(val), z.number().optional()).optional(),
-    max: z.preprocess((val) => Number(val), z.number().optional()).optional(),
+    min: z.preprocess(toOptionalNumber, z.number().optional()).optional(),
+    max: z.preprocess(toOptionalNumber, z.number().optional()).optional(),
   },
   textArea: {
     placeholder: z.string().optional(),
     maxLength: z
-      .preprocess((val) => Number(val), z.number().min(1).max(999).optional())
+      .preprocess(toOptionalNumber, z.number().min(1).max(999).optional())
       .optional(),
     minLength: z
-      .preprocess((val) => Number(val), z.number().min(0).optional())
+      .preprocess(toOptionalNumber, z.number().min(0).optional())
       .optional(),
     required: z.boolean().optional(),
   },
