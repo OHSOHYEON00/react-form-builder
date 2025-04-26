@@ -49,7 +49,7 @@ export const generateDynamicSchema = (fields: FormField[]) => {
             ? parseInt(fieldMeta.minLength)
             : fieldMeta.minLength;
         fieldValidation = (fieldValidation as ZodString).min(minLength, {
-          message: `Minimum ${fieldMeta.minLength} characters`,
+          message: `This must be minimum ${fieldMeta.minLength} characters`,
         });
       }
 
@@ -59,7 +59,7 @@ export const generateDynamicSchema = (fields: FormField[]) => {
             ? parseInt(fieldMeta.maxLength)
             : fieldMeta.maxLength;
         fieldValidation = (fieldValidation as ZodString).max(maxLength, {
-          message: `Maximum ${fieldMeta.maxLength} characters`,
+          message: `This must be aximum ${fieldMeta.maxLength} characters`,
         });
       }
     }

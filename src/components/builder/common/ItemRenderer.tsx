@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { FormField as FormFieldType, FormItemTypeKeys } from "@/types/form";
 import {
   ControllerRenderProps,
+  FieldErrors,
   FieldValues,
 } from "node_modules/react-hook-form/dist/types";
 import { BaseFormField } from "./BaseFormItemUI";
@@ -41,13 +42,25 @@ export interface FormFieldRendererProps {
     item: FormFieldType,
     field: ControllerRenderProps<FieldValues>
   ) => ControllerRenderProps<FieldValues>;
+  errors?: FieldErrors<any>;
 }
+
+const getErrormsg = (
+  name: string,
+  errors?: FieldErrors<Record<string, any>>
+): string => {
+  if (errors) {
+    return errors[name]?.message as string;
+  }
+  return "";
+};
 
 const ItemRenderer = ({
   items,
   control,
   getType,
   getFieldProps,
+  errors,
 }: FormFieldRendererProps) => {
   return (
     <>
@@ -62,7 +75,7 @@ const ItemRenderer = ({
               id={item.id}
               label={item.label || ""}
               {...(item.meta || {})}
-              error={item.error}
+              error={getErrormsg(item.name, errors)}
             >
               {renderInput(getType(item), getFieldProps(item, field))}
             </BaseFormField>
