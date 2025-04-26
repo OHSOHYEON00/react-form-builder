@@ -1,4 +1,4 @@
-import { metaConfigs } from "@/config/meta";
+import { metaConfigs } from "@/config/meta/meta";
 import {
   FieldErrors,
   FieldValues,

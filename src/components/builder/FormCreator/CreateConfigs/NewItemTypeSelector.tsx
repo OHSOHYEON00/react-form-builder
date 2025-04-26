@@ -1,11 +1,11 @@
 import Combobox from "@/components/ui/comboBox";
 import { FormField, FormFieldProps } from "@/components/ui/form";
 import { FormItemType } from "@/types/form";
-import { defaultFormMeta } from "@/config/meta";
+import { defaultFormMeta } from "@/config/meta/meta";
 import { useCallback } from "react";
 import { Control, useFormContext, useFormState } from "react-hook-form";
 import { BaseFormField } from "../../common/BaseFormItemUI";
-import { FormCreatorSchemaTypes } from "@/config/form";
+import { FormCreatorSchemaTypes } from "@/config/form/form";
 
 const NewItemTypeSelector = ({
   control,

@@ -7,10 +7,10 @@ import NewItemLabelInput from "./CreateConfigs/NewItemLabelInput";
 import NewItemTypeSelector from "./CreateConfigs/NewItemTypeSelector";
 import FormItemConfigurator from "./CreateConfigs/FormItemConfigurator";
 import { z } from "zod";
-import { defaultFormMeta } from "@/config/meta";
+import { defaultFormMeta } from "@/config/meta/meta";
 import Header from "@/components/ui/header";
 import { useFormBuilderStore } from "@/components/store/useFormBuilderStore";
-import { FormCreatorSchema } from "@/config/form";
+import { FormCreatorSchema } from "@/config/form/form";
 
 const FormCreator = () => {
   const addItem = useFormBuilderStore((store) => store.addItem);

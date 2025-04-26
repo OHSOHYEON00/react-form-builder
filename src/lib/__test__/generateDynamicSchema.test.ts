@@ -75,7 +75,7 @@ describe("generateDynamicSchema", () => {
     const valid = schema.safeParse({ age: 25 });
     expect(valid.success).toBe(true);
 
-    const invalid = schema.safeParse({ age: "25" }); // string이니까 실패
+    const invalid = schema.safeParse({ age: "25" }); // shoule be number
     expect(invalid.success).toBe(false);
   });
 });

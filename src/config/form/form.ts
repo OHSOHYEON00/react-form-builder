@@ -1,8 +1,11 @@
 import { FormField, formItemKeys, FormItemTypeKeys } from "@/types/form";
 import { z } from "zod";
-import { generateMetaSchema } from "./meta";
+import { generateMetaSchema } from "../meta/meta";
 
-const validationMap: Record<
+/**
+ * Info: Responsible for different validation logic for each form field type (formItemType)
+ */
+export const validationMap: Record<
   FormItemTypeKeys,
   ((meta: FormField["meta"], ctx: z.RefinementCtx) => void) | undefined
 > = {
@@ -25,7 +28,7 @@ const validationMap: Record<
       });
     }
 
-    if (maxLength && +maxLength <= 0) {
+    if (typeof maxLength !== "undefined" && +maxLength <= 0) {
       ctx.addIssue({
         path: ["meta", "maxLength"],
         message: "Max length must be greater or equal to 1",
@@ -33,7 +36,11 @@ const validationMap: Record<
       });
     }
 
-    if (minLength && maxLength && +minLength > +maxLength) {
+    if (
+      typeof minLength !== "undefined" &&
+      typeof maxLength !== "undefined" &&
+      +minLength > +maxLength
+    ) {
       ctx.addIssue({
         path: ["meta", "minLength"],
         message: "Min length must be less than or equal to Max length",
@@ -69,6 +76,11 @@ const validationMap: Record<
   },
 };
 
+/**
+ * Info: Function to create a validation schema for the form item itself
+ * - perform dynamically generated validations for meta fields
+ * - add specific validations for each form field via validationMap
+ */
 export const FormCreatorSchema = z
   .object({
     label: z.string().optional(),
