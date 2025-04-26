@@ -1,7 +1,7 @@
 import { FormField, FormItemTypeKeys } from "@/types/form";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { z, ZodType, ZodString, ZodObject, ZodOptional } from "zod";
+import { z, ZodString, ZodOptional } from "zod";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -29,55 +29,50 @@ const getBaseZodType = (itemType: FormItemTypeKeys): GetBaseZodTypeResult => {
   configures validation for final submission of user-created fields.
   generates field-specific validation logic when submitting the rendered form
 */
-const applyMetaValidation = (
-  schema: ZodType<unknown>,
-  meta: FormField["meta"]
-): ZodType<unknown> => {
-  let result = schema;
-
-  if (!meta) return result;
-
-  if (result instanceof ZodString) {
-    if (meta.minLength) {
-      result = (result as ZodString).min(Number(meta.minLength), {
-        message: `Minimum ${meta.minLength} characters`,
-      });
-    }
-
-    if (meta.maxLength) {
-      result = (result as ZodString).max(Number(meta.maxLength), {
-        message: `Maximum ${meta.maxLength} characters`,
-      });
-    }
-  }
-
-  // Must be in the last
-  if (meta.required) {
-    result = result.refine(
-      (val) =>
-        typeof val === "string" ? val.trim().length > 0 : val !== undefined,
-      { message: "This field is required" }
-    );
-  } else {
-    result = result.optional();
-  }
-
-  return result;
-};
-
-// Generate the complete schema
-export const generateZodSchemaFromFormItems = (
-  fields: FormField[]
-): ZodObject<Record<string, ZodType<unknown>>> => {
-  const shape: Record<string, ZodType<unknown>> = {};
+export const generateDynamicSchema = (fields: FormField[]) => {
+  const schemaFields: Record<
+    string,
+    ZodOptional<GetBaseZodTypeResult> | GetBaseZodTypeResult
+  > = {};
 
   fields.forEach((field) => {
     const base = getBaseZodType(field.formItem as FormItemTypeKeys);
-    const validated = applyMetaValidation(base, field.meta);
-    shape[field.id] = validated;
+    const fieldName = field.name;
+    const fieldMeta = field.meta;
+
+    let fieldValidation: GetBaseZodTypeResult = base;
+
+    if (fieldValidation instanceof ZodString) {
+      if (fieldMeta.minLength) {
+        const minLength =
+          typeof fieldMeta.minLength === "string"
+            ? parseInt(fieldMeta.minLength)
+            : fieldMeta.minLength;
+        fieldValidation = (fieldValidation as ZodString).min(minLength, {
+          message: `Minimum ${fieldMeta.minLength} characters`,
+        });
+      }
+
+      if (fieldMeta.maxLength) {
+        const maxLength =
+          typeof fieldMeta.maxLength === "string"
+            ? parseInt(fieldMeta.maxLength)
+            : fieldMeta.maxLength;
+        fieldValidation = (fieldValidation as ZodString).max(maxLength, {
+          message: `Maximum ${fieldMeta.maxLength} characters`,
+        });
+      }
+    }
+
+    if (!fieldMeta.required) {
+      fieldValidation =
+        fieldValidation.optional() as ZodOptional<GetBaseZodTypeResult>;
+    }
+
+    schemaFields[fieldName] = fieldValidation;
   });
 
-  return z.object(shape);
+  return z.object(schemaFields);
 };
 
 const checkboxKeys = (name: string) => !!name.includes("checkBox");

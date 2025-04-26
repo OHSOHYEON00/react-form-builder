@@ -4,7 +4,7 @@ import { FormItemTypeKeys } from "@/types/form";
 import Header from "@/components/ui/header";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { generateZodSchemaFromFormItems, normalizeFormData } from "@/lib/utils";
+import { generateDynamicSchema, normalizeFormData } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import ItemRenderer from "../common/ItemRenderer";
 import { toast } from "sonner";
@@ -14,7 +14,7 @@ import { useEffect } from "react";
 const FormRenderer = () => {
   const items = useFormBuilderStore((store) => store.items);
 
-  const schema = generateZodSchemaFromFormItems(items);
+  const schema = generateDynamicSchema(items);
 
   const form = useForm({
     resolver: zodResolver(schema),
@@ -51,6 +51,7 @@ const FormRenderer = () => {
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-6"
+          noValidate
         >
           <div className="gap-6 flex md:flex-wrap flex-col">
             <ItemRenderer
@@ -64,7 +65,11 @@ const FormRenderer = () => {
             />
           </div>
 
-          <Button className="cursor-pointer w-28 self-end" type="submit">
+          <Button
+            className="cursor-pointer w-28 self-end"
+            type="submit"
+            disabled={items.length <= 0}
+          >
             Submit
           </Button>
           <div>{JSON.stringify(form.formState.errors)}</div>
