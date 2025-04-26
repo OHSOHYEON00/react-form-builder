@@ -1,4 +1,4 @@
-import { FormCreatorTestId, FormItemType } from "@/types/form";
+import { FormCreatorTestId, FormField, FormItemType } from "@/types/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "../../ui/form";
@@ -11,6 +11,7 @@ import { defaultFormMeta } from "@/config/meta/meta";
 import Header from "@/components/ui/header";
 import { useFormBuilderStore } from "@/components/store/useFormBuilderStore";
 import { FormCreatorSchema } from "@/config/form/creator/formCreator";
+import { nanoid } from "nanoid";
 
 const FormCreator = () => {
   const addItem = useFormBuilderStore((store) => store.addItem);
@@ -25,7 +26,19 @@ const FormCreator = () => {
   });
 
   const onSubmit = (e: z.infer<typeof FormCreatorSchema>) => {
-    addItem(e);
+    const value =
+      e.formItem === "checkBox"
+        ? !!e.meta?.defaultChecked
+        : (e as any).value ?? "";
+    const newId = `${nanoid(7)}-${e.formItem}`;
+
+    const newItem: FormField = {
+      ...e,
+      value,
+      id: newId,
+      name: (e as any).name || newId,
+    } as FormField;
+    addItem(newItem);
   };
 
   return (
