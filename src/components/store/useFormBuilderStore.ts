@@ -6,6 +6,7 @@ import { devtools } from "zustand/middleware";
 interface FormBuilderState {
   items: FormField[];
   addItem: (item: Partial<FormField>) => void;
+  removeItem: (id: string) => void;
 }
 
 export const useFormBuilderStore = create<FormBuilderState>()(
@@ -30,5 +31,9 @@ export const useFormBuilderStore = create<FormBuilderState>()(
           ],
         };
       }),
+    removeItem: (id) =>
+      set((state) => ({
+        items: state.items.filter((item) => item.id !== id),
+      })),
   }))
 );

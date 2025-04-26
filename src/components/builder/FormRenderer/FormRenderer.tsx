@@ -13,6 +13,7 @@ import { useEffect } from "react";
 
 const FormRenderer = () => {
   const items = useFormBuilderStore((store) => store.items);
+  const removeItem = useFormBuilderStore((store) => store.removeItem);
 
   const schema = generateDynamicSchema(items);
 
@@ -27,6 +28,11 @@ const FormRenderer = () => {
       }
     });
   }, [items, form]);
+
+  const handleRemoveItem = (id: string) => {
+    removeItem(id);
+    form.unregister(id);
+  };
 
   const onSubmit = () => {
     const process = normalizeFormData(form.getValues());
@@ -63,6 +69,8 @@ const FormRenderer = () => {
                 ...item.meta,
               })}
               errors={form?.formState?.errors}
+              isHandleItem
+              handleRemoveItem={handleRemoveItem}
             />
           </div>
 
