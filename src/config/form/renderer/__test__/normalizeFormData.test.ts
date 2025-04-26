@@ -1,6 +1,6 @@
 // normalizeFormData.test.ts
+import { normalizeFormData } from "@/lib/utils";
 import { describe, it, expect } from "vitest";
-import { normalizeFormData } from "../utils";
 
 describe("normalizeFormData", () => {
   it("replaces undefined values with null for normal fields", () => {

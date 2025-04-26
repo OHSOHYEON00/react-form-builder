@@ -33,7 +33,15 @@ const renderInput = (
     case "input":
       return <Input {...field} className="w-full" />;
     case "numberInput":
-      return <Input {...field} type="number" className="md:w-1/2 w-full" />;
+      return (
+        <Input
+          {...field}
+          value={+field.value}
+          type="number"
+          className="md:w-1/2 w-full"
+          onChange={(event) => field.onChange(+event.target.value)}
+        />
+      );
     case "checkBox":
       return (
         <Checkbox

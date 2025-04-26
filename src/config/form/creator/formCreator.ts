@@ -1,6 +1,6 @@
 import { FormField, formItemKeys, FormItemTypeKeys } from "@/types/form";
 import { z } from "zod";
-import { generateMetaSchema } from "../meta/meta";
+import { generateMetaSchema } from "../../meta/meta";
 
 /**
  * Info: Responsible for different validation logic for each form field type (formItemType)
@@ -56,16 +56,7 @@ export const validationMap: Record<
   checkBox: () => {},
 
   numberInput: (meta, ctx) => {
-    const { required, min, max } = meta;
-
-    if (required && (!min || +min <= 0)) {
-      ctx.addIssue({
-        path: ["meta", "min"],
-        message: "Min must be greater or equal to 1",
-        code: z.ZodIssueCode.custom,
-      });
-    }
-
+    const { min, max } = meta;
     if (min && max && +min > +max) {
       ctx.addIssue({
         path: ["meta", "min"],

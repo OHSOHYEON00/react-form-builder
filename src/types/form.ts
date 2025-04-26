@@ -1,4 +1,4 @@
-import { FormCreatorSchemaTypes } from "@/config/form/form";
+import { FormCreatorSchemaTypes } from "@/config/form/creator/formCreator";
 import { metaConfigName } from "./meta";
 
 export enum FormItemType {

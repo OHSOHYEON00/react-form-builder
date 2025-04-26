@@ -10,7 +10,7 @@ import { z } from "zod";
 import { defaultFormMeta } from "@/config/meta/meta";
 import Header from "@/components/ui/header";
 import { useFormBuilderStore } from "@/components/store/useFormBuilderStore";
-import { FormCreatorSchema } from "@/config/form/form";
+import { FormCreatorSchema } from "@/config/form/creator/formCreator";
 
 const FormCreator = () => {
   const addItem = useFormBuilderStore((store) => store.addItem);

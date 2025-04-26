@@ -1,7 +1,7 @@
 // generateDynamicSchema.test.ts
 import { describe, it, expect } from "vitest";
-import { generateDynamicSchema } from "../utils";
 import { FormField } from "@/types/form";
+import { generateDynamicSchema } from "../formRender";
 
 describe("generateDynamicSchema", () => {
   it("generates required string field with min and max length", () => {

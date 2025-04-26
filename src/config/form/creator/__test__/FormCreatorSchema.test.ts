@@ -1,4 +1,4 @@
-import { FormCreatorSchema } from "@/config/form/form";
+import { FormCreatorSchema } from "@/config/form/creator/formCreator";
 import { describe, expect, it, vi } from "vitest";
 import { z } from "zod";
 import * as generateMetaSchemaModule from "@/config/meta/meta";

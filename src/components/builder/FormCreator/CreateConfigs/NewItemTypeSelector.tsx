@@ -5,7 +5,7 @@ import { defaultFormMeta } from "@/config/meta/meta";
 import { useCallback } from "react";
 import { Control, useFormContext, useFormState } from "react-hook-form";
 import { BaseFormField } from "../../common/BaseFormItemUI";
-import { FormCreatorSchemaTypes } from "@/config/form/form";
+import { FormCreatorSchemaTypes } from "@/config/form/creator/formCreator";
 
 const NewItemTypeSelector = ({
   control,

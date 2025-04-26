@@ -1,8 +1,8 @@
 // validationMap.test.tsx
 import { describe, it, expect, vi } from "vitest";
 import { z } from "zod";
-import { validationMap } from "../form";
-import { FormField } from "@/types/form";
+import { validationMap } from "../formCreator";
+import { FormField } from "../../../../types/form";
 
 // mocked ctx
 const createMockCtx = () => {
@@ -98,20 +98,6 @@ describe("validationMap", () => {
   });
 
   describe("numberInput validation", () => {
-    it("should add issue when required and min is missing or <= 0", () => {
-      const ctx = createMockCtx();
-      const meta = { required: true, min: 0, max: 10 };
-
-      validationMap.numberInput?.(meta as FormField["meta"], ctx);
-
-      expect(ctx.addIssue).toHaveBeenCalledWith(
-        expect.objectContaining({
-          path: ["meta", "min"],
-          message: "Min must be greater or equal to 1",
-        })
-      );
-    });
-
     it("should add issue when min > max", () => {
       const ctx = createMockCtx();
       const meta = { required: false, min: 10, max: 5 };

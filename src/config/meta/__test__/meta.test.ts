@@ -22,7 +22,7 @@ describe("generateMetaSchema() - generating schema by type test", () => {
 
   it("should create correct schema for 'numberInput' type", () => {
     const schema = generateMetaSchema("numberInput");
-    const expectedKeys = ["min", "max"];
+    const expectedKeys = ["min", "max", "required"];
 
     const actualKeys = Object.keys(schema.shape);
 
