@@ -42,12 +42,12 @@ export interface FormFieldRendererProps {
     item: FormFieldType,
     field: ControllerRenderProps<FieldValues>
   ) => ControllerRenderProps<FieldValues>;
-  errors?: FieldErrors<any>;
+  errors?: FieldErrors<FieldValues>;
 }
 
 const getErrormsg = (
   name: string,
-  errors?: FieldErrors<Record<string, any>>
+  errors?: FieldErrors<FieldValues>
 ): string => {
   if (errors) {
     return errors[name]?.message as string;

@@ -1,10 +1,10 @@
-import { formItemKeys, FormItemTypeKeys } from "@/types/form";
+import { FormField, formItemKeys, FormItemTypeKeys } from "@/types/form";
 import { z } from "zod";
 import { generateMetaSchema } from "./meta";
 
 const validationMap: Record<
   FormItemTypeKeys,
-  ((meta: any, ctx: z.RefinementCtx) => void) | undefined
+  ((meta: FormField["meta"], ctx: z.RefinementCtx) => void) | undefined
 > = {
   input: (meta, ctx) => {
     const { required, minLength, maxLength } = meta;

@@ -1,7 +1,7 @@
 import { FormField, FormItemTypeKeys } from "@/types/form";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { z, ZodString, ZodOptional } from "zod";
+import { z, ZodString, ZodOptional, ZodTypeAny } from "zod";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -40,7 +40,7 @@ export const generateDynamicSchema = (fields: FormField[]) => {
     const fieldName = field.name;
     const fieldMeta = field.meta;
 
-    let fieldValidation: GetBaseZodTypeResult = base;
+    let fieldValidation: ZodTypeAny = base;
 
     if (fieldValidation instanceof ZodString) {
       if (fieldMeta.minLength) {
@@ -77,7 +77,7 @@ export const generateDynamicSchema = (fields: FormField[]) => {
 
 const checkboxKeys = (name: string) => !!name.includes("checkBox");
 
-export const normalizeFormData = (data: Record<string, any>) => {
+export const normalizeFormData = (data: Record<string, unknown>) => {
   return Object.fromEntries(
     Object.entries(data).map(([key, value]) => {
       if (value === undefined) {
