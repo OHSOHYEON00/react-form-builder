@@ -41,7 +41,7 @@ const FormRenderer = ({
   const handleSubmit = () => onSubmit(form.getValues());
 
   return (
-    <>
+    <div className="mt-12">
       <Header>Your Custom Form</Header>
       <Form {...form}>
         <form
@@ -76,7 +76,7 @@ const FormRenderer = ({
         </form>
       </Form>
       <Toaster />
-    </>
+    </div>
   );
 };
 

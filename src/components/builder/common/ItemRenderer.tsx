@@ -94,7 +94,7 @@ const ItemRenderer = ({
                 label={item.label || ""}
                 {...(item.meta || {})}
                 error={getErrormsg(item.name, errors)}
-                className="h-full"
+                className={`md:h-9`}
               >
                 {renderInput(getType(item), getFieldProps(item, field))}
               </BaseFormField>
@@ -103,10 +103,10 @@ const ItemRenderer = ({
           {isHandleItem && (
             <Button
               type="button"
-              className="cursor-pointer bg-transparent shadow-none text-black ml-2 hover:bg-transparent hover:text-gray-500"
+              className="cursor-pointer bg-transparent shadow-none text-black ml-2 hover:bg-transparent items-start p-0 md:items-center md:pt-2 hover:text-gray-500"
               onClick={() => handleRemoveItem && handleRemoveItem(item.id)}
             >
-              <Trash2 />
+              <Trash2 width={12} height={12} />
             </Button>
           )}
         </div>

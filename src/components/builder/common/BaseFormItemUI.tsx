@@ -30,12 +30,17 @@ const Label = ({
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger className=" min-w-0">
-            <FormLabel className="truncate ">
+            <FormLabel
+              className="truncate "
+              onClick={(e) => e.preventDefault()}
+            >
               {label} {required && <span className="text-red-500 ">*</span>}
             </FormLabel>
           </TooltipTrigger>
-          <TooltipContent className="w-1/2 ml-8">
-            <p>{label}</p>
+          <TooltipContent collisionPadding={{ top: 20, left: 20 }}>
+            <p className="max-w-[200px] md:max-w-[400px] break-all text-center p-2">
+              {label}
+            </p>
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
