@@ -78,7 +78,7 @@ export const metaValidationMap = {
   input: {
     placeholder: z.string().optional(),
     maxLength: z
-      .preprocess(toOptionalNumber, z.number().min(1).max(999).optional())
+      .preprocess(toOptionalNumber, z.number().min(1).optional())
       .optional(),
     minLength: z
       .preprocess(toOptionalNumber, z.number().min(0).optional())
@@ -88,11 +88,12 @@ export const metaValidationMap = {
   numberInput: {
     min: z.preprocess(toOptionalNumber, z.number().optional()).optional(),
     max: z.preprocess(toOptionalNumber, z.number().optional()).optional(),
+    required: z.boolean().optional(),
   },
   textArea: {
     placeholder: z.string().optional(),
     maxLength: z
-      .preprocess(toOptionalNumber, z.number().min(1).max(999).optional())
+      .preprocess(toOptionalNumber, z.number().min(1).optional())
       .optional(),
     minLength: z
       .preprocess(toOptionalNumber, z.number().min(0).optional())

@@ -1,4 +1,4 @@
-import { FormCreatorSchemaTypes } from "@/config/form";
+import { FormCreatorSchemaTypes } from "@/config/form/creator/formCreator";
 import { metaConfigName } from "./meta";
 
 export enum FormItemType {
@@ -19,4 +19,11 @@ export interface FormField extends FormCreatorSchemaTypes {
   meta: Record<metaConfigName, string | boolean | any>;
   error?: string;
   value?: string | boolean | any;
+}
+
+export enum FormCreatorTestId {
+  header = "header",
+  label = "creator_label",
+  comboBox = "creator_comboBox",
+  submit = "creator_submit",
 }

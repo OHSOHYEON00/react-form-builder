@@ -1,4 +1,4 @@
-import { FormItemType } from "@/types/form";
+import { FormCreatorTestId, FormField, FormItemType } from "@/types/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "../../ui/form";
@@ -7,10 +7,11 @@ import NewItemLabelInput from "./CreateConfigs/NewItemLabelInput";
 import NewItemTypeSelector from "./CreateConfigs/NewItemTypeSelector";
 import FormItemConfigurator from "./CreateConfigs/FormItemConfigurator";
 import { z } from "zod";
-import { defaultFormMeta } from "@/config/meta";
+import { defaultFormMeta } from "@/config/meta/meta";
 import Header from "@/components/ui/header";
 import { useFormBuilderStore } from "@/components/store/useFormBuilderStore";
-import { FormCreatorSchema } from "@/config/form";
+import { FormCreatorSchema } from "@/config/form/creator/formCreator";
+import { nanoid } from "nanoid";
 
 const FormCreator = () => {
   const addItem = useFormBuilderStore((store) => store.addItem);
@@ -25,12 +26,24 @@ const FormCreator = () => {
   });
 
   const onSubmit = (e: z.infer<typeof FormCreatorSchema>) => {
-    addItem(e);
+    const value =
+      e.formItem === "checkBox"
+        ? !!e.meta?.defaultChecked
+        : (e as any).value ?? "";
+    const newId = `${nanoid(7)}-${e.formItem}`;
+
+    const newItem: FormField = {
+      ...e,
+      value,
+      id: newId,
+      name: (e as any).name || newId,
+    } as FormField;
+    addItem(newItem);
   };
 
   return (
     <section className="">
-      <Header>Add New Field</Header>
+      <Header data-testid={FormCreatorTestId.header}>Add New Field</Header>
 
       <Form {...form}>
         <form
@@ -44,7 +57,11 @@ const FormCreator = () => {
 
           <FormItemConfigurator type={form.watch("formItem") as FormItemType} />
 
-          <Button className="cursor-pointer w-28 self-end" type="submit">
+          <Button
+            data-testid={FormCreatorTestId.submit}
+            className="cursor-pointer w-28 self-end"
+            type="submit"
+          >
             Submit
           </Button>
         </form>

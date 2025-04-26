@@ -1,18 +1,23 @@
 import { useFormBuilderStore } from "@/components/store/useFormBuilderStore";
 import { Form } from "@/components/ui/form";
-import { FormItemTypeKeys } from "@/types/form";
+import { FormField, FormItemTypeKeys } from "@/types/form";
 import Header from "@/components/ui/header";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { generateDynamicSchema, normalizeFormData } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import ItemRenderer from "../common/ItemRenderer";
-import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { useEffect } from "react";
+import { generateDynamicSchema } from "@/config/form/renderer/formRender";
 
-const FormRenderer = () => {
-  const items = useFormBuilderStore((store) => store.items);
+const FormRenderer = ({
+  items,
+  onSubmit,
+}: {
+  items: FormField[];
+  onSubmit: (data: Record<string, unknown>) => void;
+}) => {
+  const removeItem = useFormBuilderStore((store) => store.removeItem);
 
   const schema = generateDynamicSchema(items);
 
@@ -28,28 +33,19 @@ const FormRenderer = () => {
     });
   }, [items, form]);
 
-  const onSubmit = () => {
-    const process = normalizeFormData(form.getValues());
-
-    toast("Form has been submitted.", {
-      description: (
-        <pre className="mt-2 w-[260px]  rounded-md bg-slate-950 p-4">
-          <p className="text-white">{JSON.stringify(process, null, 2)}</p>
-        </pre>
-      ),
-      action: {
-        label: "Undo",
-        onClick: () => {},
-      },
-    });
+  const handleRemoveItem = (id: string) => {
+    removeItem(id);
+    form.unregister(id);
   };
+
+  const handleSubmit = () => onSubmit(form.getValues());
 
   return (
     <>
       <Header>Your Custom Form</Header>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(handleSubmit)}
           className="flex flex-col gap-6"
           noValidate
         >
@@ -61,8 +57,11 @@ const FormRenderer = () => {
               getFieldProps={(item, field) => ({
                 ...field,
                 ...item.meta,
+                "data-testid": `${item.label}-${item.formItem}`,
               })}
               errors={form?.formState?.errors}
+              isHandleItem
+              handleRemoveItem={handleRemoveItem}
             />
           </div>
 
@@ -70,6 +69,7 @@ const FormRenderer = () => {
             className="cursor-pointer w-28 self-end"
             type="submit"
             disabled={items.length <= 0}
+            aria-label="RendererSubmitButton"
           >
             Submit
           </Button>

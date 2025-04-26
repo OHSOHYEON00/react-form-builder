@@ -60,7 +60,7 @@ export const BaseFormField = ({
     <div className={`${className}`}>
       <FormItem
         key={id}
-        className={`grid grid-rows-1 gap-y-4 md:grid-cols-[minmax(4rem,8rem)_auto] md:grid-flow-col items-center`}
+        className={`grid h-full grid-rows-1 gap-y-4 md:grid-cols-[minmax(4rem,8rem)_auto] md:grid-flow-col items-center`}
       >
         <Label label={label} required={required} />
         {description && (

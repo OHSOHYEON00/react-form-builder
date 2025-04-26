@@ -1,5 +1,10 @@
-import { metaConfigs } from "@/config/meta";
-import { FieldErrors, useFormContext, useFormState } from "react-hook-form";
+import { metaConfigs } from "@/config/meta/meta";
+import {
+  FieldErrors,
+  FieldValues,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 import {
   FormItemType,
   FormField as FormFieldType,
@@ -37,7 +42,7 @@ const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
           control={control}
           getType={(item) => item.formItem as FormItemTypeKeys}
           getFieldProps={(_, field) => field}
-          errors={(errors?.meta as FieldErrors<any>) || undefined}
+          errors={(errors?.meta as FieldErrors<FieldValues>) || undefined}
         />
       </div>
     </>

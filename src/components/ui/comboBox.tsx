@@ -18,7 +18,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-type ListType = { value: string; label: string };
+type ListType = { value: string; label: string; testId?: string };
 
 interface ComboBoxProps extends PopoverContentProps {
   options?: Array<ListType>;
@@ -27,6 +27,7 @@ interface ComboBoxProps extends PopoverContentProps {
   placeholder?: string;
   _onSelect?: (value: string | undefined) => void;
   width?: string;
+  dataTestId?: string;
 }
 
 const Combobox = ({
@@ -34,8 +35,9 @@ const Combobox = ({
   initValue = undefined,
   options = [],
   placeholder = "Select",
-  width,
+  width = "",
   _onSelect,
+  dataTestId,
 }: ComboBoxProps) => {
   const [open, setOpen] = React.useState(initOpen);
   const [value, setValue] = React.useState<string | undefined>(initValue);
@@ -48,6 +50,7 @@ const Combobox = ({
           role="combobox"
           aria-expanded={open}
           className={`${width} justify-between`}
+          data-testid={dataTestId}
         >
           {value && options
             ? options.find((options) => options.value === value)?.label
@@ -64,6 +67,7 @@ const Combobox = ({
               {options.map((option) => (
                 <CommandItem
                   key={option.value}
+                  data-testid={option.testId}
                   value={option.value}
                   onSelect={(currentValue: string) => {
                     const nextValue =

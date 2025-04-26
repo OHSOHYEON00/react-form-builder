@@ -9,6 +9,21 @@ import {
   FieldValues,
 } from "node_modules/react-hook-form/dist/types";
 import { BaseFormField } from "./BaseFormItemUI";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
+
+export interface FormFieldRendererProps {
+  items: FormFieldType[];
+  control: FormFieldProps["control"];
+  getType: (item: FormFieldType) => FormItemTypeKeys;
+  getFieldProps: (
+    item: FormFieldType,
+    field: ControllerRenderProps<FieldValues>
+  ) => ControllerRenderProps<FieldValues>;
+  errors?: FieldErrors<FieldValues>;
+  isHandleItem?: boolean;
+  handleRemoveItem?: (id: string) => void;
+}
 
 const renderInput = (
   type: FormItemTypeKeys,
@@ -16,9 +31,17 @@ const renderInput = (
 ) => {
   switch (type) {
     case "input":
-      return <Input {...field} />;
+      return <Input {...field} className="w-full" />;
     case "numberInput":
-      return <Input {...field} type="number" className="md:w-1/2 w-full" />;
+      return (
+        <Input
+          {...field}
+          value={+field.value}
+          type="number"
+          className="md:w-1/2 w-full"
+          onChange={(event) => field.onChange(+event.target.value)}
+        />
+      );
     case "checkBox":
       return (
         <Checkbox
@@ -34,20 +57,9 @@ const renderInput = (
   }
 };
 
-export interface FormFieldRendererProps {
-  items: FormFieldType[];
-  control: FormFieldProps["control"];
-  getType: (item: FormFieldType) => FormItemTypeKeys;
-  getFieldProps: (
-    item: FormFieldType,
-    field: ControllerRenderProps<FieldValues>
-  ) => ControllerRenderProps<FieldValues>;
-  errors?: FieldErrors<any>;
-}
-
 const getErrormsg = (
   name: string,
-  errors?: FieldErrors<Record<string, any>>
+  errors?: FieldErrors<FieldValues>
 ): string => {
   if (errors) {
     return errors[name]?.message as string;
@@ -61,26 +73,43 @@ const ItemRenderer = ({
   getType,
   getFieldProps,
   errors,
+  isHandleItem = false,
+  handleRemoveItem,
 }: FormFieldRendererProps) => {
   return (
     <>
       {items.map((item) => (
-        <FormField
+        <div
           key={item.id}
-          control={control}
-          name={item.name}
-          render={({ field }) => (
-            <BaseFormField
-              key={item.id}
-              id={item.id}
-              label={item.label || ""}
-              {...(item.meta || {})}
-              error={getErrormsg(item.name, errors)}
+          className="grid grid-cols-[auto_0fr] items-start h-full"
+        >
+          <FormField
+            key={item.id}
+            control={control}
+            name={item.name}
+            render={({ field }) => (
+              <BaseFormField
+                key={item.id}
+                id={item.id}
+                label={item.label || ""}
+                {...(item.meta || {})}
+                error={getErrormsg(item.name, errors)}
+                className="h-full"
+              >
+                {renderInput(getType(item), getFieldProps(item, field))}
+              </BaseFormField>
+            )}
+          ></FormField>
+          {isHandleItem && (
+            <Button
+              type="button"
+              className="cursor-pointer bg-transparent shadow-none text-black ml-2 hover:bg-transparent hover:text-gray-500"
+              onClick={() => handleRemoveItem && handleRemoveItem(item.id)}
             >
-              {renderInput(getType(item), getFieldProps(item, field))}
-            </BaseFormField>
+              <Trash2 />
+            </Button>
           )}
-        ></FormField>
+        </div>
       ))}
     </>
   );
