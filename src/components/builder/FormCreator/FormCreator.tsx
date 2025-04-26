@@ -1,4 +1,4 @@
-import { FormItemType } from "@/types/form";
+import { FormCreatorTestId, FormItemType } from "@/types/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form } from "../../ui/form";
@@ -30,7 +30,7 @@ const FormCreator = () => {
 
   return (
     <section className="">
-      <Header>Add New Field</Header>
+      <Header data-testid={FormCreatorTestId.header}>Add New Field</Header>
 
       <Form {...form}>
         <form
@@ -44,7 +44,11 @@ const FormCreator = () => {
 
           <FormItemConfigurator type={form.watch("formItem") as FormItemType} />
 
-          <Button className="cursor-pointer w-28 self-end" type="submit">
+          <Button
+            data-testid={FormCreatorTestId.submit}
+            className="cursor-pointer w-28 self-end"
+            type="submit"
+          >
             Submit
           </Button>
         </form>

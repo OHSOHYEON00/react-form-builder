@@ -20,3 +20,10 @@ export interface FormField extends FormCreatorSchemaTypes {
   error?: string;
   value?: string | boolean | any;
 }
+
+export enum FormCreatorTestId {
+  header = "header",
+  label = "creator_label",
+  comboBox = "creator_comboBox",
+  submit = "creator_submit",
+}

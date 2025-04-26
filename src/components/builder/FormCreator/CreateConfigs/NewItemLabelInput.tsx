@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { BaseFormField } from "../../common/BaseFormItemUI";
 import { Control } from "react-hook-form";
 import { FormCreatorSchemaTypes } from "@/config/form/creator/formCreator";
+import { FormCreatorTestId } from "@/types/form";
 
 const NewItemLabelInput = ({
   control,
@@ -16,7 +17,11 @@ const NewItemLabelInput = ({
       render={({ field }) => {
         return (
           <BaseFormField required={false} id={"label"} label={"Label"}>
-            <Input placeholder="Input form label" {...field} />
+            <Input
+              data-testid={FormCreatorTestId.label}
+              placeholder="Input form label"
+              {...field}
+            />
           </BaseFormField>
         );
       }}

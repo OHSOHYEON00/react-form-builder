@@ -1,6 +1,6 @@
 import Combobox from "@/components/ui/comboBox";
 import { FormField, FormFieldProps } from "@/components/ui/form";
-import { FormItemType } from "@/types/form";
+import { FormCreatorTestId, FormItemType } from "@/types/form";
 import { defaultFormMeta } from "@/config/meta/meta";
 import { useCallback } from "react";
 import { Control, useFormContext, useFormState } from "react-hook-form";
@@ -15,6 +15,7 @@ const NewItemTypeSelector = ({
   const formItemOptions = Object.keys(FormItemType).map((type) => ({
     value: type,
     label: FormItemType[type as keyof typeof FormItemType],
+    testId: FormItemType[type as keyof typeof FormItemType],
   }));
   const error = useFormState({ control })?.errors?.formItem?.message || "";
 
@@ -38,6 +39,7 @@ const NewItemTypeSelector = ({
         >
           <Combobox
             {...field}
+            dataTestId={FormCreatorTestId.comboBox}
             options={formItemOptions}
             _onSelect={(e) => {
               field.onChange(e);
