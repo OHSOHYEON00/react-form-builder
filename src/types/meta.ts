@@ -5,7 +5,9 @@ export type metaConfigName =
   | "required"
   | "maxLength"
   | "defaultChecked"
-  | "minLength";
+  | "minLength"
+  | "min"
+  | "max";
 
 export interface configType {
   name: metaConfigName;
@@ -13,4 +15,5 @@ export interface configType {
   type: FormItemTypeKeys;
   placeholder?: string;
   formItem?: FormItemTypeKeys;
+  error?: string;
 }

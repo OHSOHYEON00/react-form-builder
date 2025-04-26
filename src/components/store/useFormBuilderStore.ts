@@ -13,12 +13,17 @@ export const useFormBuilderStore = create<FormBuilderState>()(
     items: [],
     addItem: (item) =>
       set((state) => {
-        const newId = `${nanoid()}-${item.formItem}`;
+        const value =
+          item.formItem === "checkBox"
+            ? !!item.meta?.defaultChecked
+            : item.value ?? "";
+        const newId = `${nanoid(7)}-${item.formItem}`;
         return {
           items: [
             ...state.items,
             {
               ...item,
+              value,
               id: newId,
               name: item.name || newId,
             } as FormField,

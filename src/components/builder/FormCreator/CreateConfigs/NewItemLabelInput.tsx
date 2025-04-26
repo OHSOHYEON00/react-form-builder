@@ -1,8 +1,8 @@
 import { FormField, FormFieldProps } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { BaseFormField } from "../../common/BaseFormItemUI";
-import { FormCreatorSchemaTypes } from "@/types/form";
 import { Control } from "react-hook-form";
+import { FormCreatorSchemaTypes } from "@/config/form";
 
 const NewItemLabelInput = ({
   control,

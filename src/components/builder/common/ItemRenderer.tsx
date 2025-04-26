@@ -15,7 +15,7 @@ const renderInput = (
 ) => {
   switch (type) {
     case "input":
-      return <Input {...field} className=" w-full" />;
+      return <Input {...field} />;
     case "numberInput":
       return <Input {...field} type="number" className="md:w-1/2 w-full" />;
     case "checkBox":
@@ -62,6 +62,7 @@ const ItemRenderer = ({
               id={item.id}
               label={item.label || ""}
               {...(item.meta || {})}
+              error={item.error}
             >
               {renderInput(getType(item), getFieldProps(item, field))}
             </BaseFormField>
