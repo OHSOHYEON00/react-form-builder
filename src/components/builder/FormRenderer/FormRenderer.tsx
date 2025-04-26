@@ -62,6 +62,7 @@ const FormRenderer = () => {
                 ...field,
                 ...item.meta,
               })}
+              errors={form?.formState?.errors}
             />
           </div>
 
@@ -72,7 +73,6 @@ const FormRenderer = () => {
           >
             Submit
           </Button>
-          <div>{JSON.stringify(form.formState.errors)}</div>
         </form>
       </Form>
       <Toaster />

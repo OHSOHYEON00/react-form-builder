@@ -69,7 +69,7 @@ export const BaseFormField = ({
         <FormControl>{children}</FormControl>
       </FormItem>
       {error && (
-        <FormMessage className="sm:text-sm text-xs text-red-500">
+        <FormMessage className="sm:text-sm text-end text-xs text-red-500">
           {error}
         </FormMessage>
       )}
