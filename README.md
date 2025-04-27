@@ -85,7 +85,7 @@ Since the form builder should easily support *new types of form fields* in the f
 - Confidence is maintained through **strong test coverage**
 
 ## Component Structure
-[Untitled.pdf](https://github.com/user-attachments/files/19931779/Untitled.pdf)
+<img width="727" alt="image" src="https://github.com/user-attachments/assets/93f50443-c26a-4f98-ae9d-1e0e0ead43b3" />
 
 ## Principles
 - **Single Responsibility Principle (SRP)**  
