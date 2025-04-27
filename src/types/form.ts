@@ -16,7 +16,7 @@ export const formItemKeys = Object.keys(
 export interface FormField extends FormCreatorSchemaTypes {
   id: string;
   name: string;
-  meta: Record<metaConfigName, string | boolean | any>;
+  meta: Record<metaConfigName, string | boolean | number | any>;
   error?: string;
   value?: string | boolean | any;
 }

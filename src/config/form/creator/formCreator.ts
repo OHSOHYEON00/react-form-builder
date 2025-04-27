@@ -1,6 +1,10 @@
 import { FormField, formItemKeys, FormItemTypeKeys } from "@/types/form";
 import { z } from "zod";
 import { generateMetaSchema } from "../../meta/meta";
+import {
+  FieldErrors,
+  FieldValues,
+} from "node_modules/react-hook-form/dist/types";
 
 /**
  * Info: Responsible for different validation logic for each form field type (formItemType)
@@ -114,3 +118,10 @@ export const FormSchema = z
   .optional();
 
 export type FormCreatorSchemaTypes = z.infer<typeof FormCreatorSchema>;
+
+export function getValueByPath(
+  path: string,
+  errors?: FieldErrors<FieldValues>
+) {
+  return path.split(".").reduce((acc, key) => acc?.[key], errors);
+}

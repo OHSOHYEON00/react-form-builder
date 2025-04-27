@@ -12,13 +12,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-type BaseFormFieldProps = {
+export type BaseFormFieldProps = {
   required?: boolean;
   label: string;
   description?: string;
   id: string;
   className?: string;
   error?: string;
+  isFixItemSize?: boolean;
 };
 
 const Label = ({
@@ -31,7 +32,7 @@ const Label = ({
         <Tooltip>
           <TooltipTrigger className=" min-w-0">
             <FormLabel
-              className="truncate "
+              className="truncate font-normal"
               onClick={(e) => e.preventDefault()}
             >
               {label} {required && <span className="text-red-500 ">*</span>}
@@ -45,7 +46,7 @@ const Label = ({
         </Tooltip>
       </TooltipProvider>
     ) : (
-      <FormLabel className="truncate min-w-0">
+      <FormLabel className="truncate min-w-0 font-normal">
         {label} {required && <span className="text-red-500">*</span>}
       </FormLabel>
     )}
@@ -58,26 +59,37 @@ export const BaseFormField = ({
   children,
   description,
   id,
-  className = "",
   error,
+  isFixItemSize = false,
 }: React.PropsWithChildren<BaseFormFieldProps>) => {
+  const gridSize = isFixItemSize
+    ? "md:grid-cols-[minmax(4rem,8rem)_11rem]"
+    : "md:grid-cols-[minmax(4rem,8rem)_auto]";
   return (
-    <div className={`${className}`}>
+    <>
       <FormItem
         key={id}
-        className={`grid h-full grid-rows-1 gap-y-4 md:grid-cols-[minmax(4rem,8rem)_auto] md:grid-flow-col items-center`}
+        className={`grid w-full h-full grid-rows-1 gap-y-4 ${gridSize} md:grid-flow-col items-center`}
       >
-        <Label label={label} required={required} />
-        {description && (
-          <FormDescription className="">{description}</FormDescription>
-        )}
-        <FormControl>{children}</FormControl>
+        <div>
+          <Label label={label} required={required} />
+          {description && (
+            <FormDescription className="">{description}</FormDescription>
+          )}
+          <div className="md:min-h-[1.25rem]"></div>
+        </div>
+
+        <div className="flex flex-col justify-center ">
+          <FormControl>{children}</FormControl>
+          <div className="min-h-[1.25rem]">
+            {error && (
+              <FormMessage className=" break-all text-xs text-start text-red-500 md:ml-1 mt-2">
+                {error}
+              </FormMessage>
+            )}
+          </div>
+        </div>
       </FormItem>
-      {error && (
-        <FormMessage className="sm:text-sm text-end text-xs text-red-500">
-          {error}
-        </FormMessage>
-      )}
-    </div>
+    </>
   );
 };

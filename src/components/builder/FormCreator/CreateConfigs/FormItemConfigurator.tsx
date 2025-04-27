@@ -1,19 +1,15 @@
 import { metaConfigs } from "@/config/meta/meta";
-import {
-  FieldErrors,
-  FieldValues,
-  useFormContext,
-  useFormState,
-} from "react-hook-form";
+import { useFormContext, useFormState } from "react-hook-form";
 import {
   FormItemType,
   FormField as FormFieldType,
   FormItemTypeKeys,
 } from "@/types/form";
 import ItemRenderer from "../../common/ItemRenderer";
+import { getValueByPath } from "@/config/form/creator/formCreator";
 
 const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
-  const { control } = useFormContext();
+  const { control, watch } = useFormContext();
   const { errors } = useFormState({ control });
 
   const configs: FormFieldType[] =
@@ -30,7 +26,6 @@ const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
   if (configs.length <= 0) {
     return <></>;
   }
-
   return (
     <>
       <h2 className="border-b-2 border-stone-200 pb-2 mt-8 font-medium">
@@ -41,8 +36,14 @@ const FormItemConfigurator = ({ type }: { type: FormItemType }) => {
           items={configs}
           control={control}
           getType={(item) => item.formItem as FormItemTypeKeys}
-          getFieldProps={(_, field) => field}
-          errors={(errors?.meta as FieldErrors<FieldValues>) || undefined}
+          getFieldProps={(_, field) => ({
+            ...field,
+            value: watch(field.name),
+          })}
+          errors={errors}
+          getErrormsg={getValueByPath}
+          itemSelfStyle={"md:self-center"}
+          isFixItemSize={true}
         />
       </div>
     </>

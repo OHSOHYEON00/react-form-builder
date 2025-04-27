@@ -19,11 +19,12 @@ const NewItemTypeSelector = ({
   }));
   const error = useFormState({ control })?.errors?.formItem?.message || "";
 
-  const { setValue } = useFormContext();
+  const { setValue, formState, clearErrors } = useFormContext();
 
   const handleItemChanged = useCallback(() => {
     setValue("meta", defaultFormMeta);
-  }, [setValue]);
+    if (formState.errors) clearErrors();
+  }, [setValue, formState.errors, clearErrors]);
 
   return (
     <FormField

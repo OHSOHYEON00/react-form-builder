@@ -8,11 +8,11 @@ import {
   FieldErrors,
   FieldValues,
 } from "node_modules/react-hook-form/dist/types";
-import { BaseFormField } from "./BaseFormItemUI";
+import { BaseFormField, BaseFormFieldProps } from "./BaseFormItemUI";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 
-export interface FormFieldRendererProps {
+export interface FormFieldRendererProps extends Partial<BaseFormFieldProps> {
   items: FormFieldType[];
   control: FormFieldProps["control"];
   getType: (item: FormFieldType) => FormItemTypeKeys;
@@ -23,6 +23,8 @@ export interface FormFieldRendererProps {
   errors?: FieldErrors<FieldValues>;
   isHandleItem?: boolean;
   handleRemoveItem?: (id: string) => void;
+  getErrormsg?: (name: string, errors?: FieldErrors<FieldValues>) => string;
+  itemSelfStyle?: string;
 }
 
 const renderInput = (
@@ -38,8 +40,14 @@ const renderInput = (
           {...field}
           value={+field.value}
           type="number"
-          className="md:w-1/2 w-full"
-          onChange={(event) => field.onChange(+event.target.value)}
+          className="w-full"
+          onChange={(event) => {
+            if (event.target.value == "") {
+              field.onChange(undefined);
+            } else {
+              field.onChange(+event.target.value);
+            }
+          }}
         />
       );
     case "checkBox":
@@ -57,7 +65,7 @@ const renderInput = (
   }
 };
 
-const getErrormsg = (
+const _getErrormsg = (
   name: string,
   errors?: FieldErrors<FieldValues>
 ): string => {
@@ -75,13 +83,16 @@ const ItemRenderer = ({
   errors,
   isHandleItem = false,
   handleRemoveItem,
+  getErrormsg,
+  itemSelfStyle = "self-stretch",
+  isFixItemSize,
 }: FormFieldRendererProps) => {
   return (
     <>
       {items.map((item) => (
         <div
           key={item.id}
-          className="grid grid-cols-[auto_0fr] items-start h-full"
+          className={`grid grid-cols-[auto_0fr] items-start h-full ${itemSelfStyle} justify-self-center`}
         >
           <FormField
             key={item.id}
@@ -93,8 +104,12 @@ const ItemRenderer = ({
                 id={item.id}
                 label={item.label || ""}
                 {...(item.meta || {})}
-                error={getErrormsg(item.name, errors)}
-                className={`md:h-9`}
+                error={
+                  getErrormsg
+                    ? getErrormsg(item.name, errors)
+                    : _getErrormsg(item.name, errors)
+                }
+                isFixItemSize={isFixItemSize}
               >
                 {renderInput(getType(item), getFieldProps(item, field))}
               </BaseFormField>
