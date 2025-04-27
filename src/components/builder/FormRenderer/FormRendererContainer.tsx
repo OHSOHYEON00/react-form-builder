@@ -6,7 +6,13 @@ import { normalizeFormData } from "@/lib/utils";
 const FormRendererContainer = () => {
   const items = useFormBuilderStore((store) => store.items);
 
-  const onSubmit = (data: Record<string, unknown>) => {
+  const onSubmit = () => {
+    const data: Record<string, unknown> = {};
+
+    items.forEach((item) => {
+      data[item.id] = item.value;
+    });
+
     const process = normalizeFormData(data);
 
     toast("Form has been submitted.", {

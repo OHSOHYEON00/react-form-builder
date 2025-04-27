@@ -5,12 +5,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import SortableItemContainer from "./SortableItemContainer";
 
 export type BaseFormFieldProps = {
   required?: boolean;
@@ -20,6 +22,7 @@ export type BaseFormFieldProps = {
   className?: string;
   error?: string;
   isFixItemSize?: boolean;
+  isDnd?: boolean;
 };
 
 const Label = ({
@@ -61,35 +64,38 @@ export const BaseFormField = ({
   id,
   error,
   isFixItemSize = false,
+  isDnd = false,
 }: React.PropsWithChildren<BaseFormFieldProps>) => {
   const gridSize = isFixItemSize
     ? "md:grid-cols-[minmax(4rem,8rem)_11rem]"
     : "md:grid-cols-[minmax(4rem,8rem)_auto]";
+
   return (
     <>
-      <FormItem
-        key={id}
-        className={`grid w-full h-full grid-rows-1 gap-y-4 ${gridSize} md:grid-flow-col items-center`}
-      >
-        <div>
-          <Label label={label} required={required} />
-          {description && (
-            <FormDescription className="">{description}</FormDescription>
-          )}
-          <div className="md:min-h-[1.25rem]"></div>
-        </div>
-
-        <div className="flex flex-col justify-center ">
-          <FormControl>{children}</FormControl>
-          <div className="min-h-[1.25rem]">
-            {error && (
-              <FormMessage className="break-words text-xs text-start text-red-500 md:ml-1 mt-2">
-                {error}
-              </FormMessage>
+      <SortableItemContainer id={isDnd ? id : undefined}>
+        <FormItem
+          key={id}
+          className={`grid w-full pb-[1.25rem] h-full grid-rows-1 gap-y-4 ${gridSize} md:grid-flow-col items-center`}
+        >
+          <div className={`flex ${error ? "md:mb-[1.25rem]" : ""}`}>
+            <Label label={label} required={required} />
+            {description && (
+              <FormDescription className="">{description}</FormDescription>
             )}
           </div>
-        </div>
-      </FormItem>
+
+          <div className="flex flex-col justify-center ">
+            <FormControl>{children}</FormControl>
+            <div className="">
+              {error && (
+                <FormMessage className="break-words text-xs text-start text-red-500 md:ml-1 mt-2">
+                  {error}
+                </FormMessage>
+              )}
+            </div>
+          </div>
+        </FormItem>
+      </SortableItemContainer>
     </>
   );
 };

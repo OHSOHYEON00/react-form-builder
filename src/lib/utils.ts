@@ -18,7 +18,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function stringToInt(value: string): number {
+export function stringToInt(value: string): number | undefined {
   if (typeof value === "string") {
     const parsed = parseInt(value, 10);
     return isNaN(parsed) ? undefined : parsed;

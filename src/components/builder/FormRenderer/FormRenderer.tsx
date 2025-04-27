@@ -7,17 +7,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import ItemRenderer from "../common/ItemRenderer";
 import { Toaster } from "@/components/ui/sonner";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { generateDynamicSchema } from "@/config/form/renderer/formRender";
+import DndContainer from "../common/DndContainer";
 
 const FormRenderer = ({
   items,
   onSubmit,
 }: {
   items: FormField[];
-  onSubmit: (data: Record<string, unknown>) => void;
+  onSubmit: () => void;
 }) => {
   const removeItem = useFormBuilderStore((store) => store.removeItem);
+  const moveItem = useFormBuilderStore((store) => store.moveItem);
+  const updateItem = useFormBuilderStore((store) => store.updateItem);
 
   const schema = generateDynamicSchema(items);
 
@@ -42,7 +45,19 @@ const FormRenderer = ({
     form.unregister(id);
   };
 
-  const handleSubmit = () => onSubmit(form.getValues());
+  const handleChangeForm = useCallback(
+    (e) => {
+      if (e.target?.value !== undefined) {
+        const name = e.target.name;
+        const item = items.find((item) => item.name === name);
+
+        updateItem(name, { ...item, value: e.target.value });
+      }
+    },
+    [updateItem, items]
+  );
+
+  const handleSubmit = useCallback(() => onSubmit(), [onSubmit]);
 
   return (
     <div className="mt-12">
@@ -52,22 +67,26 @@ const FormRenderer = ({
           onSubmit={form.handleSubmit(handleSubmit)}
           className="flex flex-col gap-6"
           noValidate
+          onChange={handleChangeForm}
         >
-          <div className="gap-6 flex md:flex-wrap flex-col">
-            <ItemRenderer
-              items={items}
-              control={form.control}
-              getType={(item) => item.formItem as FormItemTypeKeys}
-              getFieldProps={(item, field) => ({
-                ...field,
-                ...item.meta,
-                "data-testid": `${item.label}-${item.formItem}`,
-              })}
-              errors={form?.formState?.errors}
-              isHandleItem
-              handleRemoveItem={handleRemoveItem}
-            />
-          </div>
+          <DndContainer items={items} moveItem={moveItem}>
+            <div className="gap-6 flex md:flex-wrap flex-col">
+              <ItemRenderer
+                items={items}
+                control={form.control}
+                getType={(item) => item.formItem as FormItemTypeKeys}
+                getFieldProps={(item, field) => ({
+                  ...field,
+                  ...item.meta,
+                  "data-testid": `${item.label}-${item.formItem}`,
+                })}
+                errors={form?.formState?.errors}
+                isHandleItem
+                handleRemoveItem={handleRemoveItem}
+                isDnd={true}
+              />
+            </div>
+          </DndContainer>
 
           <Button
             className="cursor-pointer w-28 self-end"

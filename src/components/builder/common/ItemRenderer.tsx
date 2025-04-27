@@ -86,6 +86,7 @@ const ItemRenderer = ({
   getErrormsg,
   itemSelfStyle = "self-stretch",
   isFixItemSize,
+  isDnd,
 }: FormFieldRendererProps) => {
   return (
     <>
@@ -110,6 +111,7 @@ const ItemRenderer = ({
                     : _getErrormsg(item.name, errors)
                 }
                 isFixItemSize={isFixItemSize}
+                isDnd={isDnd}
               >
                 <div className="flex justify-between items-baseline">
                   {renderInput(getType(item), getFieldProps(item, field))}
