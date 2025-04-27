@@ -12,7 +12,6 @@ import Header from "@/components/ui/header";
 import { useFormBuilderStore } from "@/components/store/useFormBuilderStore";
 import { FormCreatorSchema } from "@/config/form/creator/formCreator";
 import { nanoid } from "nanoid";
-import { useEffect } from "react";
 
 const FormCreator = () => {
   const addItem = useFormBuilderStore((store) => store.addItem);
@@ -24,20 +23,9 @@ const FormCreator = () => {
       formItem: "",
       meta: defaultFormMeta,
     },
-    mode: "onChange",
+    mode: "onSubmit",
+    reValidateMode: "onChange",
   });
-
-  const results = FormCreatorSchema.safeParse({ ...form.getValues() });
-
-  useEffect(() => {
-    if (!results.success) {
-      results.error?.issues.forEach((issue) => {
-        form.setError(issue.path.join(".") as any, { message: issue.message });
-      });
-    } else {
-      form.clearErrors();
-    }
-  }, [results.success, form]);
 
   const onSubmit = (e: z.infer<typeof FormCreatorSchema>) => {
     const value =

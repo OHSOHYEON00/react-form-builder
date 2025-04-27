@@ -11,9 +11,9 @@ const FormRendererContainer = () => {
 
     toast("Form has been submitted.", {
       description: (
-        <pre className="mt-2 w-[260px]  rounded-md bg-slate-950 p-4">
-          <p className="text-white">{JSON.stringify(process, null, 2)}</p>
-        </pre>
+        <p className="mt-2 max-w-[260px] text-white whitespace-pre-wrap break-words overflow-hidden rounded-md bg-slate-950 p-4">
+          {JSON.stringify(process, null, 2)}
+        </p>
       ),
       action: {
         label: "Undo",

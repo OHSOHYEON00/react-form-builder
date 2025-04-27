@@ -23,6 +23,8 @@ const FormRenderer = ({
 
   const form = useForm({
     resolver: zodResolver(schema),
+    mode: "onSubmit",
+    reValidateMode: "onChange",
   });
 
   useEffect(() => {

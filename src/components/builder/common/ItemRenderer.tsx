@@ -111,19 +111,23 @@ const ItemRenderer = ({
                 }
                 isFixItemSize={isFixItemSize}
               >
-                {renderInput(getType(item), getFieldProps(item, field))}
+                <div className="flex justify-between items-baseline">
+                  {renderInput(getType(item), getFieldProps(item, field))}
+                  {isHandleItem && (
+                    <Button
+                      type="button"
+                      className="cursor-pointer bg-transparent shadow-none text-black ml-2 hover:bg-transparent items-start p-0 md:items-center md:pt-2 hover:text-gray-500"
+                      onClick={() =>
+                        handleRemoveItem && handleRemoveItem(item.id)
+                      }
+                    >
+                      <Trash2 width={12} height={12} />
+                    </Button>
+                  )}
+                </div>
               </BaseFormField>
             )}
           ></FormField>
-          {isHandleItem && (
-            <Button
-              type="button"
-              className="cursor-pointer bg-transparent shadow-none text-black ml-2 hover:bg-transparent items-start p-0 md:items-center md:pt-2 hover:text-gray-500"
-              onClick={() => handleRemoveItem && handleRemoveItem(item.id)}
-            >
-              <Trash2 width={12} height={12} />
-            </Button>
-          )}
         </div>
       ))}
     </>

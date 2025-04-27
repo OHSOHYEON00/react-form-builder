@@ -83,7 +83,7 @@ export const BaseFormField = ({
           <FormControl>{children}</FormControl>
           <div className="min-h-[1.25rem]">
             {error && (
-              <FormMessage className=" break-all text-xs text-start text-red-500 md:ml-1 mt-2">
+              <FormMessage className="break-words text-xs text-start text-red-500 md:ml-1 mt-2">
                 {error}
               </FormMessage>
             )}
