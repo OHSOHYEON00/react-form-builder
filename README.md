@@ -17,6 +17,8 @@ This project is built with **React**, **Vite**, and **TypeScript**.
 
 ```bash
 # Install dependencies
+git clone https://github.com/OHSOHYEON00/react-form-builder.git
+
 yarn install
 ```
 
@@ -24,6 +26,12 @@ yarn install
 ```bash
 yarn dev
 ```
+test url: http://localhost:5173/
+
+- You can add form fields by selecting them.
+- You can add various validations that would be different based on the form field type.
+  <img width="727" alt="image" src="https://github.com/user-attachments/assets/f67fb2b7-6fba-4d77-b45c-fb68133d1137" />
+
 
 ### Running Tests
 ```bash
