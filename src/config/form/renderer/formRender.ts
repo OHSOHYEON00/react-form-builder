@@ -1,6 +1,13 @@
 import { stringToInt } from "@/lib/utils";
 import { FormField, FormItemTypeKeys } from "@/types/form";
-import { z, ZodString, ZodOptional, ZodTypeAny, ZodNumber } from "zod";
+import {
+  z,
+  ZodString,
+  ZodOptional,
+  ZodTypeAny,
+  ZodNumber,
+  ZodBoolean,
+} from "zod";
 
 type GetBaseZodTypeResult = z.ZodString | z.ZodAny | z.ZodBoolean | z.ZodNumber;
 
@@ -69,7 +76,13 @@ export const generateDynamicSchema = (fields: FormField[]) => {
       }
     }
 
-    if (!fieldMeta.required) {
+    if (fieldMeta.required) {
+      if (fieldValidation instanceof ZodBoolean) {
+        fieldValidation = fieldValidation.refine((val) => val === true, {
+          message: "Required",
+        });
+      }
+    } else {
       fieldValidation =
         fieldValidation.optional() as ZodOptional<GetBaseZodTypeResult>;
     }

@@ -31,14 +31,13 @@ const FormCreator = () => {
 
   useEffect(() => {
     if (!results.success) {
-      results.error.issues.forEach((issue) => {
+      results.error?.issues.forEach((issue) => {
         form.setError(issue.path.join(".") as any, { message: issue.message });
       });
     } else {
       form.clearErrors();
     }
-  }, [results.success]);
-
+  }, [results.success, form]);
 
   const onSubmit = (e: z.infer<typeof FormCreatorSchema>) => {
     const value =

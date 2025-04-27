@@ -28,7 +28,9 @@ const FormRenderer = ({
   useEffect(() => {
     items.forEach((item) => {
       if (item.name?.includes("checkBox")) {
-        form.setValue(item.name, item.meta?.defaultChecked);
+        const currentValue = form.getValues(item.name);
+        if (currentValue === undefined)
+          form.setValue(item.name, item.meta?.defaultChecked);
       }
     });
   }, [items, form]);
