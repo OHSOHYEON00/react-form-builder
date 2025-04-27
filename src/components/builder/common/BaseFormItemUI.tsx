@@ -32,7 +32,7 @@ const Label = ({
         <Tooltip>
           <TooltipTrigger className=" min-w-0">
             <FormLabel
-              className="truncate font-normal"
+              className="truncate font-normal max-w-32"
               onClick={(e) => e.preventDefault()}
             >
               {label} {required && <span className="text-red-500 ">*</span>}
